@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>스마트길찾기</title>
+
+    <!-- 파비콘 -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- 제목 Unbounded 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+    
+    <!-- 일반글 Pretendard 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div id="favoritesContainer" style="display: none; position: fixed; top: 10%; right: 5%; width: 300px; background: white; border: 1px solid #ccc; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; padding: 10px;">
+        <h3>즐겨찾기 목록</h3>
+        <ul id="favoritesList"></ul>
+    </div>
+    <button id="toggleFavoritesButton" style="position: fixed; top: 5%; right: 5%; z-index: 1001;">즐겨찾기 열기</button>
+    </div>
+    <div class="container">
+        <h1><span class="point-text">NaviPoint</span>  and  Favorites</h1>
+        <!-- 사용자 안내 -->
+        <div id="instructions">
+            <p>✅ 지도에서 시작점과 도착점을 클릭하거나 위치를 검색하세요.</p>
+        </div>
+        <!-- 출발 도착지 설정 -->
+        <div class="search-box">
+            <div class="search-box-flex">
+                <p>출발지</p>
+                <input type="text" id="startSearch" class="search-input" placeholder="출발지 검색">
+                <button onclick="searchLocation('start')" class="button">검색</button>
+            </div>
+            <div class="search-box-flex">
+                <p>도착지</p>
+                <input type="text" id="endSearch" class="search-input" placeholder="도착지 검색">
+                <button onclick="searchLocation('end')" class="button">검색</button>
+            </div>
+        </div>
+
+    <!--즐겨찾기 버튼-->
+        <!-- 초기화 -->
+        <button class="button" onclick="resetPoints()">🔁초기화</button>
+        <!--즐겨찾기 버튼-->
+        <button class="button" onclick="addFavorite()">⭐즐겨찾기 추가</button>
+
+        <!-- 결과 경로 정보 -->
+        <div id="routeInfo"></div>
+        <!-- 구글맵 출력 -->
+        <div id="map"></div>
+    </div>
+
+    <script type="text/javascript" src="../static/js/script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=키값&libraries=places&callback=initMap" async defer></script>
+    <script>
+        // 엔터키 이벤트 리스너 추가
+        function addEnterKeyListeners() {
+            const startInput = document.getElementById('startSearch');
+            const endInput = document.getElementById('endSearch');
+    
+            startInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    searchLocation('start');
+                }
+            });
+    
+            endInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    searchLocation('end');
+                }
+            });
+        }
+    
+        // DOMContentLoaded 이벤트 리스너에 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            addEnterKeyListeners();
+            initMap();  // 기존 initMap 함수 호출
+        });
+    </script>
+    <p1><a target="_blank" href="https://icons8.com/icon/OBmVbH2qOGwK/location">Location</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></p1>
+    
+</body>
+</html>
